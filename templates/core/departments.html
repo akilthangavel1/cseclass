@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Departments · {{ HOSPITAL_NAME }}{% endblock %}
+
+{% block content %}
+  <section class="page-hero">
+    <div class="container">
+      <h1>Departments</h1>
+      <p class="lead">Explore our clinical services and find the right team for your needs.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="cards">
+        {% for dept in departments %}
+          <article class="card">
+            <div class="card-title">{{ dept.name }}</div>
+            <div class="card-meta">{{ dept.doctor_count }} doctor{{ dept.doctor_count|pluralize }}</div>
+            <p class="card-text">{{ dept.description|default:"Comprehensive care led by experienced specialists." }}</p>
+            <div class="card-actions">
+              <a class="btn btn-secondary" href="{% url 'core:doctors' %}?department={{ dept.slug }}">View doctors</a>
+              <a class="btn btn-primary" href="{% url 'appointments:book' %}">Book appointment</a>
+            </div>
+          </article>
+        {% empty %}
+          <div class="empty-state">
+            <div class="empty-title">No departments available yet</div>
+            <div class="empty-text">Add departments in the admin panel to publish them here.</div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endblock %}
+

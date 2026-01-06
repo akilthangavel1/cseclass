@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Chatbot · {{ HOSPITAL_NAME }}{% endblock %}
+
+{% block head_extra %}
+  <meta name="csrf-token" content="{{ csrf_token }}" />
+{% endblock %}
+
+{% block content %}
+  <section class="page-hero">
+    <div class="container">
+      <h1>Hospital chatbot</h1>
+      <p class="lead">Ask about departments, doctors, hours, location, appointment booking, and appointment status.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="chat-shell" data-chat>
+        <div class="chat-header">
+          <div>
+            <div class="chat-title">CityCare Assistant</div>
+            <div class="chat-subtitle">Rule-based support · No external APIs</div>
+          </div>
+          <a class="btn btn-tertiary" href="{% url 'appointments:book' %}">Book appointment</a>
+        </div>
+
+        <div class="chat-disclaimer">
+          Symptom guidance is general information and not a diagnosis. For urgent symptoms, seek emergency care.
+        </div>
+
+        <div class="chat-messages" data-chat-messages role="log" aria-live="polite" aria-relevant="additions"></div>
+
+        <div class="chat-typing" data-chat-typing hidden>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+
+        <form class="chat-input" data-chat-form>
+          <label class="sr-only" for="chat-message">Message</label>
+          <input id="chat-message" class="input" type="text" name="message" placeholder="Type a message…" autocomplete="off" />
+          <button class="btn btn-primary" type="submit">Send</button>
+        </form>
+
+        <div class="chat-hints">
+          <div class="hint">Try: “hours”, “location”, “departments”, “doctors cardiology”, “book appointment”, “status 12 john@example.com”</div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'js/chatbot.js' %}"></script>
+{% endblock %}
+

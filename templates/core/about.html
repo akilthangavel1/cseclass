@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}About · {{ HOSPITAL_NAME }}{% endblock %}
+
+{% block content %}
+  <section class="page-hero">
+    <div class="container">
+      <h1>About {{ HOSPITAL_NAME }}</h1>
+      <p class="lead">A community-first hospital delivering safe, reliable care with modern clinical standards.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid-2">
+      <div class="panel">
+        <h2>Our mission</h2>
+        <p>
+          Deliver high-quality healthcare through skilled clinicians, evidence-based protocols, and a patient-first experience.
+        </p>
+        <div class="panel-list">
+          <div class="panel-item">
+            <div class="panel-item-title">Safety</div>
+            <div class="panel-item-text">Standardized clinical pathways and continuous quality improvements.</div>
+          </div>
+          <div class="panel-item">
+            <div class="panel-item-title">Compassion</div>
+            <div class="panel-item-text">Clear communication, respectful care, and supportive follow-ups.</div>
+          </div>
+          <div class="panel-item">
+            <div class="panel-item-title">Access</div>
+            <div class="panel-item-text">Fast appointment booking and streamlined department referrals.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>What we offer</h2>
+        <p>Our teams coordinate across departments to provide a seamless care journey.</p>
+        <div class="feature-grid">
+          <div class="feature">
+            <div class="feature-title">Specialist clinics</div>
+            <div class="feature-text">Cardiology, orthopedics, pediatrics, and more.</div>
+          </div>
+          <div class="feature">
+            <div class="feature-title">Diagnostics</div>
+            <div class="feature-text">Laboratory testing and imaging for quick results.</div>
+          </div>
+          <div class="feature">
+            <div class="feature-title">Preventive care</div>
+            <div class="feature-text">Checkups, screenings, and wellness guidance.</div>
+          </div>
+          <div class="feature">
+            <div class="feature-title">Emergency support</div>
+            <div class="feature-text">Non-stop assistance for urgent situations.</div>
+          </div>
+        </div>
+        <div class="panel-actions">
+          <a class="btn btn-primary" href="{% url 'appointments:book' %}">Book an Appointment</a>
+          <a class="btn btn-secondary" href="{% url 'core:contact' %}">Contact us</a>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+

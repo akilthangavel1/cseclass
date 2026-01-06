@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block title %}Appointment Submitted · {{ HOSPITAL_NAME }}{% endblock %}
+
+{% block content %}
+  <section class="page-hero">
+    <div class="container">
+      <h1>Appointment request submitted</h1>
+      <p class="lead">Please save your Appointment ID to check status later.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid-2">
+      <div class="panel">
+        <h2>Your details</h2>
+        <div class="kv">
+          <div class="kv-row"><span>Appointment ID</span><strong>#{{ appointment.id }}</strong></div>
+          <div class="kv-row"><span>Status</span><span class="status-pill status-{{ appointment.status }}">{{ appointment.get_status_display }}</span></div>
+          <div class="kv-row"><span>Patient</span><span>{{ appointment.patient_name }}</span></div>
+          <div class="kv-row"><span>Email</span><span>{{ appointment.email }}</span></div>
+          <div class="kv-row"><span>Phone</span><span>{{ appointment.phone }}</span></div>
+          <div class="kv-row"><span>Department</span><span>{{ appointment.department.name }}</span></div>
+          <div class="kv-row"><span>Preferred doctor</span><span>{% if appointment.preferred_doctor %}{{ appointment.preferred_doctor.full_name }}{% else %}No preference{% endif %}</span></div>
+          <div class="kv-row"><span>Preferred time</span><span>{{ appointment.preferred_datetime }}</span></div>
+        </div>
+        <div class="panel-actions">
+          <a class="btn btn-primary" href="{% url 'appointments:status' %}">Check status</a>
+          <a class="btn btn-secondary" href="{% url 'core:home' %}">Back to home</a>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Next steps</h2>
+        <div class="callout">
+          <div class="callout-title">Keep your Appointment ID</div>
+          <div class="callout-text">You can check status publicly using your email and Appointment ID.</div>
+        </div>
+        <div class="panel-list">
+          <div class="panel-item">
+            <div class="panel-item-title">Pending</div>
+            <div class="panel-item-text">We received your request and will review scheduling.</div>
+          </div>
+          <div class="panel-item">
+            <div class="panel-item-title">Confirmed</div>
+            <div class="panel-item-text">Your appointment is scheduled.</div>
+          </div>
+          <div class="panel-item">
+            <div class="panel-item-title">Completed</div>
+            <div class="panel-item-text">Your visit is complete.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+

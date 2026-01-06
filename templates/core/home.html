@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Home · {{ HOSPITAL_NAME }}{% endblock %}
+
+{% block content %}
+  <section class="hero">
+    <div class="container hero-grid">
+      <div class="hero-copy">
+        <div class="badge">24/7 Emergency Support</div>
+        <h1>Modern care with a human touch.</h1>
+        <p class="lead">
+          From preventive checkups to specialist consultations, we help you take care of what matters most: your health.
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="{% url 'appointments:book' %}">Book an Appointment</a>
+          <a class="btn btn-secondary" href="{% url 'chatbot:chat' %}">Chat with Us</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-number">15+</div>
+            <div class="stat-label">Specialty Services</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">50+</div>
+            <div class="stat-label">Clinicians</div>
+          </div>
+          <div class="stat">
+            <div class="stat-number">99%</div>
+            <div class="stat-label">Patient Satisfaction</div>
+          </div>
+        </div>
+      </div>
+      <div class="hero-card" aria-label="Hospital highlights">
+        <div class="hero-card-title">Today at a glance</div>
+        <div class="hero-card-row">
+          <div class="pill">Fast appointments</div>
+          <div class="pill">Diagnostic lab</div>
+          <div class="pill">Imaging</div>
+          <div class="pill">Pharmacy</div>
+        </div>
+        <div class="hero-card-panel">
+          <div class="panel-title">Hours</div>
+          {% for label, hours in HOSPITAL_HOURS.items %}
+            <div class="panel-row"><span>{{ label }}</span><span>{{ hours }}</span></div>
+          {% endfor %}
+        </div>
+        <div class="hero-card-panel">
+          <div class="panel-title">Contact</div>
+          <div class="panel-row"><span>Phone</span><span>{{ HOSPITAL_PHONE }}</span></div>
+          <div class="panel-row"><span>Email</span><span>{{ HOSPITAL_EMAIL }}</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-head">
+        <h2>Departments</h2>
+        <a class="link" href="{% url 'core:departments' %}">View all</a>
+      </div>
+      <div class="cards">
+        {% for dept in departments %}
+          <article class="card">
+            <div class="card-title">{{ dept.name }}</div>
+            <div class="card-meta">{{ dept.doctor_count }} doctor{{ dept.doctor_count|pluralize }}</div>
+            <p class="card-text">{{ dept.description|default:"Comprehensive care led by experienced specialists."|truncatechars:140 }}</p>
+            <div class="card-actions">
+              <a class="btn btn-tertiary" href="{% url 'core:departments' %}">Explore</a>
+              <a class="btn btn-secondary" href="{% url 'appointments:book' %}">Book</a>
+            </div>
+          </article>
+        {% empty %}
+          <div class="empty-state">
+            <div class="empty-title">Departments will appear here</div>
+            <div class="empty-text">Add departments and doctors in the admin panel to populate the site.</div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-alt">
+    <div class="container">
+      <div class="section-head">
+        <h2>Featured doctors</h2>
+        <a class="link" href="{% url 'core:doctors' %}">Browse all</a>
+      </div>
+      <div class="cards">
+        {% for doctor in doctors %}
+          <article class="card card-doctor">
+            <div class="avatar" aria-hidden="true">{{ doctor.full_name|first }}</div>
+            <div>
+              <div class="card-title">{{ doctor.full_name }}</div>
+              <div class="card-meta">{{ doctor.specialization }} · {{ doctor.department.name }}</div>
+              <div class="card-text">{{ doctor.availability|default:"Availability updated on request." }}</div>
+              <div class="card-actions">
+                <a class="btn btn-primary" href="{% url 'appointments:book' %}">Book with this doctor</a>
+              </div>
+            </div>
+          </article>
+        {% empty %}
+          <div class="empty-state">
+            <div class="empty-title">Doctors will appear here</div>
+            <div class="empty-text">Add doctors in the admin panel and mark them accepting appointments.</div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endblock %}
+

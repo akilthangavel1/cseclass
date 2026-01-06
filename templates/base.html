@@ -1,0 +1,80 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{% block title %}{{ HOSPITAL_NAME }}{% endblock %}</title>
+    <meta name="description" content="{% block meta_description %}{{ HOSPITAL_TAGLINE }}{% endblock %}" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}" />
+    {% block head_extra %}{% endblock %}
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <header class="site-header">
+      <div class="container header-inner">
+        <a class="brand" href="{% url 'core:home' %}">
+          <span class="brand-mark" aria-hidden="true"></span>
+          <span class="brand-text">
+            <span class="brand-name">{{ HOSPITAL_NAME }}</span>
+            <span class="brand-tagline">{{ HOSPITAL_TAGLINE }}</span>
+          </span>
+        </a>
+
+        <nav class="nav" aria-label="Primary">
+          <a class="nav-link" href="{% url 'core:home' %}">Home</a>
+          <a class="nav-link" href="{% url 'core:about' %}">About</a>
+          <a class="nav-link" href="{% url 'core:departments' %}">Departments</a>
+          <a class="nav-link" href="{% url 'core:doctors' %}">Doctors</a>
+          <a class="nav-link" href="{% url 'appointments:book' %}">Appointments</a>
+          <a class="nav-link" href="{% url 'chatbot:chat' %}">Chatbot</a>
+          <a class="nav-link" href="{% url 'core:contact' %}">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    {% include "includes/messages.html" %}
+
+    <main id="main" class="site-main">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-grid">
+        <div>
+          <div class="footer-title">{{ HOSPITAL_NAME }}</div>
+          <div class="footer-text">{{ HOSPITAL_TAGLINE }}</div>
+          <div class="footer-text">{{ HOSPITAL_EMERGENCY_NOTE }}</div>
+        </div>
+        <div>
+          <div class="footer-title">Contact</div>
+          <div class="footer-text">{{ HOSPITAL_ADDRESS }}</div>
+          <div class="footer-text"><a href="tel:{{ HOSPITAL_PHONE|cut:' ' }}">{{ HOSPITAL_PHONE }}</a></div>
+          <div class="footer-text"><a href="mailto:{{ HOSPITAL_EMAIL }}">{{ HOSPITAL_EMAIL }}</a></div>
+        </div>
+        <div>
+          <div class="footer-title">Hours</div>
+          {% for label, hours in HOSPITAL_HOURS.items %}
+            <div class="footer-text">{{ label }}: {{ hours }}</div>
+          {% endfor %}
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <div>© {% now "Y" %} {{ HOSPITAL_NAME }}. All rights reserved.</div>
+        <div class="footer-links">
+          <a href="{% url 'appointments:status' %}">Check Appointment Status</a>
+          <a href="{% url 'chatbot:chat' %}">Chat Support</a>
+        </div>
+      </div>
+    </footer>
+
+    <a class="floating-cta" href="{% url 'appointments:book' %}">Book Appointment</a>
+
+    {% block scripts %}{% endblock %}
+  </body>
+</html>
+

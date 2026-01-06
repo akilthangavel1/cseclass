@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Doctors · {{ HOSPITAL_NAME }}{% endblock %}
+
+{% block content %}
+  <section class="page-hero">
+    <div class="container">
+      <h1>Doctors</h1>
+      <p class="lead">Browse specialists by department and availability.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <form class="filter-bar" method="get" action="{% url 'core:doctors' %}">
+        <label class="field">
+          <span class="field-label">Department</span>
+          <select name="department" class="select">
+            <option value="">All departments</option>
+            {% for dept in departments %}
+              <option value="{{ dept.slug }}" {% if selected_department and dept.id == selected_department.id %}selected{% endif %}>
+                {{ dept.name }}
+              </option>
+            {% endfor %}
+          </select>
+        </label>
+        <button class="btn btn-secondary" type="submit">Filter</button>
+        <a class="btn btn-tertiary" href="{% url 'core:doctors' %}">Reset</a>
+      </form>
+
+      <div class="cards">
+        {% for doctor in doctors %}
+          <article class="card card-doctor">
+            <div class="avatar" aria-hidden="true">{{ doctor.full_name|first }}</div>
+            <div>
+              <div class="card-title">{{ doctor.full_name }}</div>
+              <div class="card-meta">{{ doctor.specialization }} · {{ doctor.department.name }}</div>
+              {% if doctor.availability %}
+                <div class="card-text">{{ doctor.availability }}</div>
+              {% else %}
+                <div class="card-text">Availability: Please contact reception for the latest schedule.</div>
+              {% endif %}
+              <div class="card-actions">
+                <a class="btn btn-primary" href="{% url 'appointments:book' %}">Book appointment</a>
+                <a class="btn btn-secondary" href="{% url 'core:contact' %}">Ask a question</a>
+              </div>
+            </div>
+          </article>
+        {% empty %}
+          <div class="empty-state">
+            <div class="empty-title">No doctors found</div>
+            <div class="empty-text">Try selecting a different department, or check back later.</div>
+          </div>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endblock %}
+

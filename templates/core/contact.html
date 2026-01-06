@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block title %}Contact · {{ HOSPITAL_NAME }}{% endblock %}
+
+{% block content %}
+  <section class="page-hero">
+    <div class="container">
+      <h1>Contact</h1>
+      <p class="lead">Send a message and our team will respond as soon as possible.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid-2">
+      <div class="panel">
+        <h2>Reach us</h2>
+        <div class="info-list">
+          <div class="info-item">
+            <div class="info-label">Address</div>
+            <div class="info-value">{{ HOSPITAL_ADDRESS }}</div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Phone</div>
+            <div class="info-value"><a href="tel:{{ HOSPITAL_PHONE|cut:' ' }}">{{ HOSPITAL_PHONE }}</a></div>
+          </div>
+          <div class="info-item">
+            <div class="info-label">Email</div>
+            <div class="info-value"><a href="mailto:{{ HOSPITAL_EMAIL }}">{{ HOSPITAL_EMAIL }}</a></div>
+          </div>
+        </div>
+        <div class="callout">
+          <div class="callout-title">Emergency notice</div>
+          <div class="callout-text">{{ HOSPITAL_EMERGENCY_NOTE }}</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Send a message</h2>
+        <form method="post" class="form">
+          {% csrf_token %}
+          <div class="form-grid">
+            <div class="field">
+              <label class="field-label" for="{{ form.name.id_for_label }}">Name</label>
+              {{ form.name }}
+              {% if form.name.errors %}<div class="field-error">{{ form.name.errors|striptags }}</div>{% endif %}
+            </div>
+            <div class="field">
+              <label class="field-label" for="{{ form.email.id_for_label }}">Email</label>
+              {{ form.email }}
+              {% if form.email.errors %}<div class="field-error">{{ form.email.errors|striptags }}</div>{% endif %}
+            </div>
+            <div class="field">
+              <label class="field-label" for="{{ form.phone.id_for_label }}">Phone</label>
+              {{ form.phone }}
+              {% if form.phone.errors %}<div class="field-error">{{ form.phone.errors|striptags }}</div>{% endif %}
+            </div>
+            <div class="field">
+              <label class="field-label" for="{{ form.subject.id_for_label }}">Subject</label>
+              {{ form.subject }}
+              {% if form.subject.errors %}<div class="field-error">{{ form.subject.errors|striptags }}</div>{% endif %}
+            </div>
+            <div class="field field-span">
+              <label class="field-label" for="{{ form.message.id_for_label }}">Message</label>
+              {{ form.message }}
+              {% if form.message.errors %}<div class="field-error">{{ form.message.errors|striptags }}</div>{% endif %}
+            </div>
+          </div>
+          <button class="btn btn-primary" type="submit">Send message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+

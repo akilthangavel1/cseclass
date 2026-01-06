@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Book Appointment · {{ HOSPITAL_NAME }}{% endblock %}
+
+{% block content %}
+  <section class="page-hero">
+    <div class="container">
+      <h1>Book an appointment</h1>
+      <p class="lead">No login required. Submit your request and we’ll confirm it shortly.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid-2">
+      <div class="panel">
+        <h2>Appointment form</h2>
+        <form method="post" class="form" id="appointment-form">
+          {% csrf_token %}
+          <div class="form-grid">
+            <div class="field">
+              <label class="field-label" for="{{ form.patient_name.id_for_label }}">Patient name</label>
+              {{ form.patient_name }}
+              {% if form.patient_name.errors %}<div class="field-error">{{ form.patient_name.errors|striptags }}</div>{% endif %}
+            </div>
+            <div class="field">
+              <label class="field-label" for="{{ form.email.id_for_label }}">Email</label>
+              {{ form.email }}
+              {% if form.email.errors %}<div class="field-error">{{ form.email.errors|striptags }}</div>{% endif %}
+            </div>
+            <div class="field">
+              <label class="field-label" for="{{ form.phone.id_for_label }}">Phone number</label>
+              {{ form.phone }}
+              {% if form.phone.errors %}<div class="field-error">{{ form.phone.errors|striptags }}</div>{% endif %}
+            </div>
+            <div class="field">
+              <label class="field-label" for="{{ form.department.id_for_label }}">Department</label>
+              {{ form.department }}
+              {% if form.department.errors %}<div class="field-error">{{ form.department.errors|striptags }}</div>{% endif %}
+            </div>
+            <div class="field">
+              <label class="field-label" for="{{ form.preferred_doctor.id_for_label }}">Preferred doctor</label>
+              {{ form.preferred_doctor }}
+              <div class="field-help">Choose a department first to filter doctors.</div>
+              {% if form.preferred_doctor.errors %}<div class="field-error">{{ form.preferred_doctor.errors|striptags }}</div>{% endif %}
+            </div>
+            <div class="field">
+              <label class="field-label" for="{{ form.preferred_datetime.id_for_label }}">Preferred date & time</label>
+              {{ form.preferred_datetime }}
+              {% if form.preferred_datetime.errors %}<div class="field-error">{{ form.preferred_datetime.errors|striptags }}</div>{% endif %}
+            </div>
+            <div class="field field-span">
+              <label class="field-label" for="{{ form.symptoms.id_for_label }}">Symptoms</label>
+              {{ form.symptoms }}
+              {% if form.symptoms.errors %}<div class="field-error">{{ form.symptoms.errors|striptags }}</div>{% endif %}
+            </div>
+          </div>
+          {% if form.non_field_errors %}<div class="form-error">{{ form.non_field_errors|striptags }}</div>{% endif %}
+          <button class="btn btn-primary" type="submit">Submit appointment request</button>
+          <a class="btn btn-secondary" href="{% url 'appointments:status' %}">Check appointment status</a>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2>What happens next</h2>
+        <div class="panel-list">
+          <div class="panel-item">
+            <div class="panel-item-title">1) We review</div>
+            <div class="panel-item-text">Your appointment is saved with status Pending.</div>
+          </div>
+          <div class="panel-item">
+            <div class="panel-item-title">2) We confirm</div>
+            <div class="panel-item-text">A staff member confirms time/doctor when available.</div>
+          </div>
+          <div class="panel-item">
+            <div class="panel-item-title">3) Visit</div>
+            <div class="panel-item-text">Arrive 10 minutes early with any relevant reports.</div>
+          </div>
+        </div>
+        <div class="callout">
+          <div class="callout-title">Need help choosing?</div>
+          <div class="callout-text">Use the chatbot to find the right department based on your symptoms.</div>
+          <div class="panel-actions">
+            <a class="btn btn-secondary" href="{% url 'chatbot:chat' %}">Open chatbot</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
+{% block scripts %}
+  <script src="{% static 'js/appointments.js' %}"></script>
+{% endblock %}
+

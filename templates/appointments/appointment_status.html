@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+
+{% block title %}Check Appointment Status · {{ HOSPITAL_NAME }}{% endblock %}
+
+{% block content %}
+  <section class="page-hero">
+    <div class="container">
+      <h1>Check appointment status</h1>
+      <p class="lead">Enter your email and Appointment ID.</p>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container grid-2">
+      <div class="panel">
+        <h2>Status checker</h2>
+        <form method="post" class="form">
+          {% csrf_token %}
+          <div class="form-grid">
+            <div class="field">
+              <label class="field-label" for="{{ form.email.id_for_label }}">Email</label>
+              {{ form.email }}
+              {% if form.email.errors %}<div class="field-error">{{ form.email.errors|striptags }}</div>{% endif %}
+            </div>
+            <div class="field">
+              <label class="field-label" for="{{ form.appointment_id.id_for_label }}">Appointment ID</label>
+              {{ form.appointment_id }}
+              {% if form.appointment_id.errors %}<div class="field-error">{{ form.appointment_id.errors|striptags }}</div>{% endif %}
+            </div>
+          </div>
+          {% if form.non_field_errors %}<div class="form-error">{{ form.non_field_errors|striptags }}</div>{% endif %}
+          <button class="btn btn-primary" type="submit">Check status</button>
+          <a class="btn btn-secondary" href="{% url 'appointments:book' %}">Book new appointment</a>
+        </form>
+      </div>
+
+      <div class="panel">
+        <h2>Result</h2>
+        {% if result %}
+          {% if result.found %}
+            {% with a=result.appointment %}
+              <div class="kv">
+                <div class="kv-row"><span>Appointment ID</span><strong>#{{ a.id }}</strong></div>
+                <div class="kv-row"><span>Status</span><span class="status-pill status-{{ a.status }}">{{ a.get_status_display }}</span></div>
+                <div class="kv-row"><span>Patient</span><span>{{ a.patient_name }}</span></div>
+                <div class="kv-row"><span>Department</span><span>{{ a.department.name }}</span></div>
+                <div class="kv-row"><span>Preferred doctor</span><span>{% if a.preferred_doctor %}{{ a.preferred_doctor.full_name }}{% else %}No preference{% endif %}</span></div>
+                <div class="kv-row"><span>Preferred time</span><span>{{ a.preferred_datetime }}</span></div>
+              </div>
+            {% endwith %}
+          {% else %}
+            <div class="empty-state">
+              <div class="empty-title">No match found</div>
+              <div class="empty-text">Please confirm your email and Appointment ID.</div>
+            </div>
+          {% endif %}
+        {% else %}
+          <div class="empty-state">
+            <div class="empty-title">Enter details to view status</div>
+            <div class="empty-text">Your appointment status will appear here after you submit the form.</div>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </section>
+{% endblock %}
+
